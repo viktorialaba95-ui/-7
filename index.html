@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hist.viktoria | Тема 7 (30 запитань)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FAF4E6;
+            --card-bg: #FFFFFF;
+            --primary-color: #4A6B52;
+            --accent-color: #7A4988;
+            --text-color: #2C3E35;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(74, 107, 82, 0.12);
+            border: 2px solid #EAE0C8;
+        }
+        .badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            font-size: 20px;
+            color: var(--text-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .question-box {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: #1F2E26;
+            min-height: 60px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #F8F5EE;
+            border: 2px solid #E5DCB9;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .btn:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+        .btn.correct {
+            background-color: #2ECC71 !important;
+            color: white !important;
+            border-color: #27AE60 !important;
+        }
+        .btn.wrong {
+            background-color: #E74C3C !important;
+            color: white !important;
+            border-color: #C0392B !important;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #EAE0C8;
+            font-size: 14px;
+            color: #777;
+        }
+        #next-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: opacity 0.2s;
+            display: none;
+        }
+        #next-btn:hover {
+            opacity: 0.9;
+        }
+        .score-board {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .score-board h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .score-board p {
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+        .restart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .restart-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="badge">viktoria.hist · НМТ Історія · Тема 7</div>
+    <h1>Українські землі у складі Речі Посполитої (І пол. XVII ст.)</h1>
+    <div id="quiz-container">
+        <div class="question-box" id="question">Завантаження запитання...</div>
+        <div class="options" id="options"></div>
+    </div>
+    <div class="footer">
+        <span id="progress">Запитання 1 з 30</span>
+        <button id="next-btn" onclick="nextQuestion()">Далі →</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "Який економічний процес переважав у сільському господарстві українських земель у першій половині XVII ст.?",
+            options: [
+                "Розвиток фермерського господарства європейського типу",
+                "Поширення та зростання кількості фільварків і посилення панщини",
+                "Повна ліквідація феодального землеволодіння",
+                "Перехід виключно до мануфактурного виробництва"
+            ],
+            correct: 1
+        },
+        {
+            question: "Що було характерно для мануфактурного виробництва, що зароджувалося в цей період?",
+            options: [
+                "Використання виключно складних парових двигунів",
+                "Поділ праці, ручна техніка та використання найманої праці",
+                "Заборона використання найманої праці та опора на цехи",
+                "Виробництво виключно сільськогосподарської продукції"
+            ],
+            correct: 1
+        },
+        {
+            question: "Яку роль відігравали міста в українських землях у першій половині XVII ст.?",
+            options: [
+                "Міста засновувалися переважно шляхтою, міщани сплачували чинш і не відпрацьовували панщину",
+                "Міста були повністю незалежними від шляхти республіками",
+                "Міське населення повністю складалося з козаків",
+                "Міста втратили будь-яке економічне значення через занепад ремесла"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яку мету мав похід гетьмана Петра Сагайдачного на Москву в 181... тобто 1618 році?",
+            options: [
+                "Підтримання намірів королевича Владислава здобути московську корону",
+                "Організація спільного походу проти Кримського ханства",
+                "Визволення православної церкви від унії",
+                "Приєднання Московського царства до козацької держави"
+            ],
+            correct: 0
+        },
+        {
+            question: "Який мирний договір було укладено внаслідок успішного походу Сагайдачного на Москву у 1618 р.?",
+            options: [
+                "Люблінська унія",
+                "Деулінський мир",
+                "Куруківська угода",
+                "Зборівський договір"
+            ],
+            correct: 1
+        },
+        {
+            question: "Які території отримала Польща за Деулінським миром 1618 року?",
+            options: [
+                "Галичину та Волинь",
+                "Смоленщину та Чернігово-Сіверщину",
+                "Київщину та Брацлавщину",
+                "Південну Україну та Крим"
+            ],
+            correct: 1
+        },
+        {
+            question: "У якому році відбувся знаменитий Хотинський похід, у якому вирішальну роль відіграли козаки на чолі з Сагайдачним?",
+            options: [
+                "1618 р.",
+                "1621 р.",
+                "1625 р.",
+                "1630 р."
+            ],
+            correct: 1
+        },
+        {
+            question: "Яку подію супроводжувало відновлення вищої православної ієрархії в 1620 р. за сприяння Сагайдачного?",
+            options: [
+                "Висвячення Єрусалимським патріархом Іоаном Феофаном митрополита Йова Борецкого",
+                "Підписання Берестейської унії",
+                "Створення Речі Посполитої трьох народів",
+                "Прийняття Ординації Війська Запорізького"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яка угода була підписана за результатами козацького повстання 1625 року під проводом Марка Жмайла?",
+            options: [
+                "Куруківська угода",
+                "Переяславська угода",
+                "Березневі статті",
+                "Віленське перемири'я"
+            ],
+            correct: 0
+        },
+        {
+            question: "Який розмір реєстру встановлювала Куруківська угода (1625 р.)?",
+            options: [
+                "3 000 козаків",
+                "6 000 козаків",
+                "8 000 козаків",
+                "40 000 козаків"
+            ],
+            correct: 1
+        },
+        {
+            question: "Що передбачала Куруківська угода щодо запорожців?",
+            options: [
+                "1 000 або більше козаків мали постійно перебувати на Низу за порогами для перешкоджання втечам селян",
+                "Повну ліквідацію Запорозької Січі",
+                "Обов'язковий похід козаків на Балтику",
+                "Звільнення всіх селян на Запорожжі"
+            ],
+            correct: 0
+        },
+        {
+            question: "Хто очолив козацьке повстання 1630 року, під час якого сталася знаменита «Тарасова ніч»?",
+            options: [
+                "Марко Жмайло",
+                "Тарас Федорович (Трясило)",
+                "Павло Павлюк (Бут)",
+                "Яків Острянин"
+            ],
+            correct: 1
+        },
+        {
+            question: "Який елітний підрозділ польського війська розгромили повстанці під час «Тарасової ночі» 1630 року?",
+            options: [
+                "«Золоту роту»",
+                "«Крилатих гусарів»",
+                "«Залізну дивізію»",
+                "«Чорну сотню»"
+            ],
+            correct: 0
+        },
+        {
+            question: "Який документ було підписано після завершення повстання під проводом Тараса Трясила в 1630 р.?",
+            options: [
+                "Переяславську угоду (реєстр збільшено до 8 000)",
+                "«Ординацію Війська Запорізького»",
+                "Деулінське перемири'я",
+                "Люблінську унію"
+            ],
+            correct: 0
+        },
+        {
+            question: "Хто очолив козацьке повстання 1637 року, ключовою битвою якого стала битва під Кумейками?",
+            options: [
+                "Павло Павлюк (Бут)",
+                "Яків Острянин",
+                "Дмитро Гуня",
+                "Тарас Трясило"
+            ],
+            correct: 0
+        },
+        {
+            question: "Який козацький ватажок здобув перемогу над польським військом під Говтвою у квітні 1638 року?",
+            options: [
+                "Павло Павлюк",
+                "Яків Острянин",
+                "Дмитро Гуня",
+                "Марко Жмайло"
+            ],
+            correct: 1
+        },
+        {
+            question: "Хто очолив повстанців після відступу Якова Острянина під час повстання 1638 року та героїчно тримав оборону в таборі під Жовнином?",
+            options: [
+                "Дмитро Гуня",
+                "Іван Сулима",
+                "Северин Наливайко",
+                "Криштоф Косинський"
+            ],
+            correct: 0
+        },
+        {
+            question: "Який документ сейм Речі Посполитої ухвалив у 1638 році після придушення козацьких повстань?",
+            options: [
+                "«Ординацію Війська Запорізького»",
+                "Куруківську угоду",
+                "Берестейську унію",
+                "Статут Великого князівства Литовського"
+            ],
+            correct: 0
+        },
+        {
+            question: "Згідно з «Ординацією Війська Запорізького» (1638 р.), хто призначався замість виборного козацького старшого?",
+            options: [
+                "Королівський комісар",
+                "Коронний гетьман",
+                "Київський воєвода",
+                "Старший осавул"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яке обмеження реєстру закріплювала «Ординація Війська Запорізького» 1638 року?",
+            options: [
+                "3 000 козаків",
+                "6 000 козаків",
+                "8 000 козаків",
+                "10 000 козаків"
+            ],
+            correct: 1
+        },
+        {
+            question: "Як називався період у історії України після 1638 року і до 1648 року через відсутність масових козацьких повстань?",
+            options: [
+                "«Золотий спокій»",
+                "«Дике поле»",
+                "«Руїна»",
+                "«Доба героїчних походів»"
+            ],
+            correct: 0
+        },
+        {
+            question: "Що означає історичний термін «фільварок» у першій половині XVII ст.?",
+            options: [
+                "Велике багатогалузеве господарство, орієнтоване на виробництво зерна на продаж і засноване на праці кріпаків",
+                "Дрібна селянська садиба",
+                "Реміснича майстерня в місті",
+                "Козацький зимівник на Запорожжі"
+            ],
+            correct: 0
+        },
+        {
+            question: "Що таке «реєстрове козацтво»?",
+            options: [
+                "Частина козацтва, яка перебувала на державній службі у Речі Посполитої та була внесена до спеціального списку (реєстру)",
+                "Усі селяни, що втекли на Січ",
+                "Наймана армія Кримського ханства",
+                "Приватна охорона польських магнатів"
+            ],
+            correct: 0
+        },
+        {
+            question: "Кого називали «нереєстровими козаками» (або «виписанцями»)?",
+            options: [
+                "Козаків, які не ввійшли до офіційного державного реєстру і не отримували за службу платні",
+                "Козаків, які служили у війську московського царя",
+                "Селян, що отримали шляхетські титули",
+                "Міських ремісників"
+            ],
+            correct: 0
+        },
+        {
+            question: "У якому році відбулася битва під Кумейками під час повстання Павла Павлюка?",
+            options: [
+                "1625 р.",
+                "1630 р.",
+                "1637 р.",
+                "1638 р."
+            ],
+            correct: 2
+        },
+        {
+            question: "Який період охоплює так звана «десятиріччя без бунтів» («Золотий спокій»)?",
+            options: [
+                "1638–1648 рр.",
+                "1618–1628 рр.",
+                "1600–1610 рр.",
+                "1625–1635 рр."
+            ],
+            correct: 0
+        },
+        {
+            question: "Яка галузь мануфактурного виробництва розвивалася найшвидше на українських землях у першій половині XVII ст.?",
+            options: [
+                "Залізорудна, паперова, винокурна та соляна",
+                "Виробництво автомобілів та літаків",
+                "Суднобудування океанських лайнерів",
+                "Виготовлення електронних мікросхем"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яку позицію займав Петро Сагайдачний щодо відносин із Реччю Посполитою?",
+            options: [
+                "Прагнув компромісу з владою Речі Посполитої задля захисту прав православних і розширення прав козацтва",
+                "Виступав за негайне повне знищення Польщі у союзі з Османською імперією",
+                "Вважав за потрібне повністю підкоритися Москві",
+                "Закликав до скасування будь-яких реєстрів"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яким було становище українських міст у першій половині XVII ст.?",
+            options: [
+                "Більшість міст належала магнатам і шляхті, розвивалося цехове ремесло, якому почали поступатися мануфактури",
+                "Усі міста були абсолютно вільними та самоврядними за Магдебурзьким правом без жодних обмежень",
+                "Міста повністю зникли через набіги татар",
+                "Міста контролювалися виключно запорозькими гетьманами"
+            ],
+            correct: 0
+        },
+        {
+            question: "Яким був головний підсумок козацьких повстань 1630-х років (Павлюка, Острянина, Гуні)?",
+            options: [
+                "Поразки повстанців та прийняття жорсткої «Ординації...» 1638 р., що тимчасово ліквідувала козацьку автономію",
+                "Повне звільнення України від влади Речі Посполитої",
+                "Отримання козаками прав королівської родини",
+                "Приєднання українських земель до Швеції"
+            ],
+            correct: 0
+        }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const progressEl = document.getElementById("progress");
+    const nextBtn = document.getElementById("next-btn");
+    const quizContainer = document.getElementById("quiz-container");
+
+    function loadQuiz() {
+        answered = false;
+        nextBtn.style.display = "none";
+        const currentQuiz = quizData[currentQuestion];
+        
+        questionEl.innerText = currentQuiz.question;
+        optionsEl.innerHTML = "";
+        progressEl.innerText = `Запитання ${currentQuestion + 1} з ${quizData.length}`;
+
+        currentQuiz.options.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.classList.add("btn");
+            btn.innerText = option;
+            btn.onclick = () => selectOption(index, btn);
+            optionsEl.appendChild(btn);
+        });
+    }
+
+    function selectOption(index, selectedBtn) {
+        if (answered) return;
+        answered = true;
+
+        const currentQuiz = quizData[currentQuestion];
+        const allButtons = optionsEl.children;
+
+        if (index === currentQuiz.correct) {
+            selectedBtn.classList.add("correct");
+            score++;
+        } else {
+            selectedBtn.classList.add("wrong");
+            allButtons[currentQuiz.correct].classList.add("correct");
+        }
+
+        Array.from(allButtons).forEach(btn => btn.disabled = true);
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            loadQuiz();
+        } else {
+            quizContainer.innerHTML = `
+                <div class="score-board">
+                    <h2>Тест завершено! 🎉</h2>
+                    <p>Твій результат: <strong>${score}</strong> з <strong>${quizData.length}</strong></p>
+                    <button class="restart-btn" onclick="restartQuiz()">Спробувати ще раз</button>
+                </div>
+            `;
+            progressEl.innerText = "";
+            nextBtn.style.display = "none";
+        }
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        quizContainer.innerHTML = `
+            <div class="question-box" id="question"></div>
+            <div class="options" id="options"></div>
+        `;
+        loadQuiz();
+    }
+
+    loadQuiz();
+</script>
+
+</body>
+</html>
